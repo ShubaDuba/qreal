@@ -13,7 +13,7 @@ namespace russianC
 class SimpleElementFactory
 {
 public:
-	static AbstractSimpleElementGenerator* generator(QString const elementType);
+	static AbstractSimpleElementGenerator* generator(QString const &elementType);
 };
 
 }
