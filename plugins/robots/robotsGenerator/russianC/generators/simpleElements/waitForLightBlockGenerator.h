@@ -9,15 +9,18 @@ namespace russianC
 
 class RussianCRobotGenerator;
 
-class VariableInitGenerator : public AbstractSimpleElementGenerator
+class WaitForLightBlockGenerator: public AbstractSimpleElementGenerator
 {
 public:
-	VariableInitGenerator();
+	WaitForLightBlockGenerator();
 
 protected:
 	virtual QList<SmartLine> convertElementIntoDirectCommand(RussianCRobotGenerator *nxtGen
 			, qReal::Id const elementId, qReal::Id const logicElementId);
-};
 
+private:
+	void addInitAndTerminateCode(RussianCRobotGenerator *nxtGen
+			, QString const &port, qReal::Id const elementId);
+};
 }
 }
