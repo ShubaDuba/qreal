@@ -9,7 +9,7 @@
 #include "../../../../qrutils/outFile.h"
 
 #include "russianCRobotGenerator.h"
-#include "elementGeneratorFactory.h"
+#include "rcElementGeneratorFactory.h"
 
 using namespace qReal;
 using namespace robots::russianC;

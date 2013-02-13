@@ -2,6 +2,7 @@
 
 #include "robotsGeneratorPlugin.h"
 #include "nxtOSEK/nxtOSEKRobotGenerator.h"
+#include "russianC/russianCRobotGenerator.h"
 
 Q_EXPORT_PLUGIN2(robotsGeneratorPlugin, robots::generator::RobotsGeneratorPlugin)
 
@@ -76,6 +77,30 @@ void RobotsGeneratorPlugin::generateRobotSourceCode()
 	mProjectManager->save();
 
 	robots::generator::NxtOSEKRobotGenerator gen(mMainWindowInterface->activeDiagram(),
+			 *mRepoControlApi,
+			 *mMainWindowInterface->errorReporter());
+	mMainWindowInterface->errorReporter()->clearErrors();
+	gen.generate();
+	if (mMainWindowInterface->errorReporter()->wereErrors()) {
+		return;
+	}
+
+	QFile file("nxt-tools/example0/example0.c");
+	QTextStream *inStream = NULL;
+	if (!file.isOpen() && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		inStream = new QTextStream(&file);
+	}
+
+	if (inStream) {
+		mMainWindowInterface->showInTextEditor("example0", inStream->readAll());
+	}
+}
+
+void RobotsGeneratorPlugin::generateRussianCCode()
+{
+	mProjectManager->save();
+
+	robots::russianC::RussianCRobotGenerator gen(mMainWindowInterface->activeDiagram(),
 			 *mRepoControlApi,
 			 *mMainWindowInterface->errorReporter());
 	mMainWindowInterface->errorReporter()->clearErrors();

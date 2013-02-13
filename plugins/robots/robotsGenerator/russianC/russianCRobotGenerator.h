@@ -9,8 +9,8 @@
 #include "../../../../qrrepo/repoApi.h"
 #include "../../../../qrgui/toolPluginInterface/usedInterfaces/errorReporterInterface.h"
 
-#include "generators/abstractElementGenerator.h"
-#include "smartLine.h"
+#include "generators/rcAbstractElementGenerator.h"
+#include "rcSmartLine.h"
 
 namespace robots
 {
