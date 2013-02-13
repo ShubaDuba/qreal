@@ -2,7 +2,7 @@
 
 using namespace robots::russianC;
 
-FunctionElementGenerator::FunctionElementGenerator(NxtOSEKRobotGenerator *generator
+FunctionElementGenerator::FunctionElementGenerator(RussianCRobotGenerator *generator
 		, qReal::Id const &elementId, bool const &generateToInit)
 		: SimpleElementGenerator(generator, elementId), mGenerateToInit(generateToInit)
 {
