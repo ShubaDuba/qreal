@@ -9,7 +9,8 @@ using namespace qReal;
 using namespace robots::generator;
 
 RobotsGeneratorPlugin::RobotsGeneratorPlugin()
-		: mGenerateCodeAction(NULL)
+		: mGenerateNxtOsekCodeAction(NULL)
+		, mGenerateRussianCCodeAction(NULL)
 		, mFlashRobotAction(NULL)
 		, mUploadProgramAction(NULL)
 		, mNxtToolsPresent(false)
@@ -35,9 +36,13 @@ void RobotsGeneratorPlugin::init(PluginConfigurator const &configurator)
 
 QList<ActionInfo> RobotsGeneratorPlugin::actions()
 {
-	mGenerateCodeAction.setText(tr("Generate code"));
-	ActionInfo generateCodeActionInfo(&mGenerateCodeAction, "generators", "tools");
-	connect(&mGenerateCodeAction, SIGNAL(triggered()), this, SLOT(generateRobotSourceCode()));
+	mGenerateNxtOsekCodeAction.setText(tr("Generate nxtOSEK code"));
+	ActionInfo generateNxtOsekCodeActionInfo(&mGenerateNxtOsekCodeAction, "generators", "tools");
+	connect(&mGenerateNxtOsekCodeAction, SIGNAL(triggered()), this, SLOT(generateRobotSourceCode()));
+
+	mGenerateRussianCCodeAction.setText(tr("Generate russian C code"));
+	ActionInfo generateRussianCCodeActionInfo(&mGenerateNxtOsekCodeAction, "generators", "tools");
+	connect(&mGenerateRussianCCodeAction, SIGNAL(triggered()), this, SLOT(generateRussianCCode()));
 
 	mFlashRobotAction.setText(tr("Flash robot"));
 	ActionInfo flashRobotActionInfo(&mFlashRobotAction, "generators", "tools");
@@ -55,14 +60,14 @@ QList<ActionInfo> RobotsGeneratorPlugin::actions()
 	unusedAtTheOpeningTab << generateCodeActionInfo;
 	changeActiveTab(unusedAtTheOpeningTab, false);
 	*/
-	return QList<ActionInfo>() << generateCodeActionInfo << flashRobotActionInfo
+	return QList<ActionInfo>() << generateNxtOsekCodeActionInfo << generateRussianCCodeActionInfo << flashRobotActionInfo
 			<< uploadProgramActionInfo;
 }
 
 void RobotsGeneratorPlugin::changeActiveTab(QList<ActionInfo> const &info, bool const &trigger)
 {
 	foreach (ActionInfo const &actionInfo, info) {
-			actionInfo.action()->setEnabled(trigger);
+		actionInfo.action()->setEnabled(trigger);
 	}
 }
 

@@ -46,7 +46,10 @@ private:
 	void changeActiveTab(QList<qReal::ActionInfo> const &info, bool const &trigger);
 
 	/// Action that launches code generator
-	QAction mGenerateCodeAction;
+	QAction mGenerateNxtOsekCodeAction;
+
+	/// Action that launches code generator
+	QAction mGenerateRussianCCodeAction;
 
 	/// Action that uploads nxtOSEK on a robot
 	QAction mFlashRobotAction;

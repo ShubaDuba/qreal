@@ -1,9 +1,9 @@
 #pragma once
 
-#include <QString>
-#include <QPair>
-#include <QMap>
-#include <QStack>
+#include <QtCore/QString>
+#include <QtCore/QPair>
+#include <QtCore/QMap>
+#include <QtCore/QStack>
 
 #include "../../../../qrkernel/ids.h"
 #include "../../../../qrrepo/repoApi.h"
@@ -12,17 +12,19 @@
 #include "generators/abstractElementGenerator.h"
 #include "smartLine.h"
 
-namespace robots {
-namespace generator {
+namespace robots
+{
+namespace russianC
+{
 
-/// Class for generation nxtOSEK code from Robot Language Diagram
-class NxtOSEKRobotGenerator
+/// Class for generation russian C code from Robot Language Diagram
+class RussianCRobotGenerator
 {
 public:
-	NxtOSEKRobotGenerator(qReal::Id const &diagram, qrRepo::RepoControlInterface &api, qReal::ErrorReporterInterface &errorReporter, QString const &destinationPath = "");
-	NxtOSEKRobotGenerator(QString const &pathToRepo, qReal::ErrorReporterInterface &errorReporter, QString const &destinationPath = "");
+	RussianCRobotGenerator(qReal::Id const &diagram, qrRepo::RepoControlInterface &api, qReal::ErrorReporterInterface &errorReporter, QString const &destinationPath = "");
+	RussianCRobotGenerator(QString const &pathToRepo, qReal::ErrorReporterInterface &errorReporter, QString const &destinationPath = "");
 
-	~NxtOSEKRobotGenerator();
+	~RussianCRobotGenerator();
 
 	/// main method that starts a code generation.
 	void generate();
@@ -54,7 +56,7 @@ private:
 			, QString const &resultTerminateCode
 			, QString const &curInitialNodeNumber);
 	void deleteResidualLabels(QString const &projectName);
-	void generateMakeFile(bool const &toGenerateIsEmpty, QString const &projectName, QString const &projectDir);
+	void generateMakeFile(bool oGenerateIsEmpty, QString const &projectName, QString const &projectDir);
 	void generateFilesForBalancer(QString const &projectDir);
 	QString addTabAndEndOfLine(QList<SmartLine> const &lineList, QString resultCode);
 	QString generateVariableString();
@@ -63,7 +65,7 @@ private:
 	void initializeFields(QString resultTaskTemplate, qReal::Id curInitialNode);
 
 	/// Loads templates and creates output directory.
-	void initializeGeneration(const QString projectDir);
+	void initializeGeneration(QString const &projectDir);
 
 	QString mResultOil;
 	QString mResultString;

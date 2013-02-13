@@ -18,4 +18,8 @@ HEADERS += \
 SOURCES += \
 	robotsGeneratorPlugin.cpp \
 
+# Generators:
+
 include(nxtOSEK/nxtOsek.pri)
+
+include(russianC/russianC.pri)
