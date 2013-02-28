@@ -13,13 +13,13 @@ LoopElementGenerator::LoopElementGenerator(RussianCRobotGenerator *emboxGen
 
 bool LoopElementGenerator::nextElementsGeneration()
 {
-	IdList const outgoingLinks = mNxtGen->api()->outgoingLinks(mElementId);
+	IdList const outgoingLinks = mRobotCGenerator->api()->outgoingLinks(mElementId);
 	Q_ASSERT(outgoingLinks.size() == 2);
 
 	int elementConnectedByIterationEdgeNumber = -1;
 	int afterLoopElementNumber = -1;
 
-	if (mNxtGen->api()->stringProperty(mNxtGen->api()->logicalId(outgoingLinks.at(0)), "Guard").toUtf8() == "итерация") {
+	if (mRobotCGenerator->api()->stringProperty(mRobotCGenerator->api()->logicalId(outgoingLinks.at(0)), "Guard").toUtf8() == "итерация") {
 		elementConnectedByIterationEdgeNumber = 0;
 		afterLoopElementNumber = 1;
 	} else {
@@ -28,36 +28,36 @@ bool LoopElementGenerator::nextElementsGeneration()
 	}
 
 	//generate loop
-	Id const loopNextElement = mNxtGen->api()->to(outgoingLinks.at(elementConnectedByIterationEdgeNumber));
+	Id const loopNextElement = mRobotCGenerator->api()->to(outgoingLinks.at(elementConnectedByIterationEdgeNumber));
 	if (loopNextElement == Id::rootId()) {
-		mNxtGen->errorReporter().addError("Loop block " + mElementId.toString() + " has no correct loop branch!"\
+		mRobotCGenerator->errorReporter().addError("Loop block " + mElementId.toString() + " has no correct loop branch!"\
 				" May be you need to connect it to some diagram element.", mElementId);
 		return false;
 	}
 
-	AbstractElementGenerator* const loopGen = ElementGeneratorFactory::generator(mNxtGen
-			, loopNextElement, *mNxtGen->api());
+	AbstractElementGenerator* const loopGen = ElementGeneratorFactory::generator(mRobotCGenerator
+			, loopNextElement, *mRobotCGenerator->api());
 
-	mNxtGen->previousElement() = mElementId;
-	mNxtGen->previousLoopElements().push(mElementId);
+	mRobotCGenerator->previousElement() = mElementId;
+	mRobotCGenerator->previousLoopElements().push(mElementId);
 	if (!loopGen->generate()) {
 		return false;
 	}
 	delete loopGen;
 
 	//generate next blocks
-	Id const nextBlockElement = mNxtGen->api()->to(outgoingLinks.at(afterLoopElementNumber));
+	Id const nextBlockElement = mRobotCGenerator->api()->to(outgoingLinks.at(afterLoopElementNumber));
 	if (nextBlockElement == Id::rootId()) {
-		mNxtGen->errorReporter().addError("Loop block " + mElementId.toString() + " has no correct next block branch!"\
+		mRobotCGenerator->errorReporter().addError("Loop block " + mElementId.toString() + " has no correct next block branch!"\
 				" May be you need to connect it to some diagram element.", mElementId);
 		return false;
 	}
 
-	AbstractElementGenerator* nextBlocksGen = ElementGeneratorFactory::generator(mNxtGen
-			, nextBlockElement, *mNxtGen->api());
+	AbstractElementGenerator* nextBlocksGen = ElementGeneratorFactory::generator(mRobotCGenerator
+			, nextBlockElement, *mRobotCGenerator->api());
 
-	mNxtGen->previousElement() = mElementId;
-	mNxtGen->previousLoopElements().push(mElementId);
+	mRobotCGenerator->previousElement() = mElementId;
+	mRobotCGenerator->previousLoopElements().push(mElementId);
 	if (!nextBlocksGen->generate()) {
 		return false;
 	}
@@ -70,10 +70,10 @@ QList<SmartLine> LoopElementGenerator::addLoopCodeInPrefixForm()
 {
 	QList<SmartLine> result;
 
-	qReal::Id const logicElementId = mNxtGen->api()->logicalId(mElementId); //TODO
-	result << SmartLine("for (int __iter__ = 0; __iter__ < "
-			+ mNxtGen->api()->property(logicElementId, "Iterations").toString()
-				+ "; __iter__++) {", mElementId, SmartLine::increase); //TODO
+	qReal::Id const logicElementId = mRobotCGenerator->api()->logicalId(mElementId); //TODO
+	result << SmartLine(QString::fromUtf8("для целого i от 0 до ")
+			+ mRobotCGenerator->api()->property(logicElementId, "Iterations").toString()
+				+ ") {", mElementId, SmartLine::increase); //TODO
 	return result;
 }
 
@@ -86,11 +86,11 @@ QList<SmartLine> LoopElementGenerator::addLoopCodeInPostfixForm()
 
 bool LoopElementGenerator::preGenerationCheck()
 {
-	IdList const outgoingLinks = mNxtGen->api()->outgoingLinks(mElementId);
+	IdList const outgoingLinks = mRobotCGenerator->api()->outgoingLinks(mElementId);
 
 	if ((outgoingLinks.size() != 2) ||
-		((mNxtGen->api()->property(mNxtGen->api()->logicalId(outgoingLinks.at(0)), "Guard").toString() == "итерация")
-		&& (mNxtGen->api()->property(mNxtGen->api()->logicalId(outgoingLinks.at(1)), "Guard").toString() == "итерация") )
+		((mRobotCGenerator->api()->property(mRobotCGenerator->api()->logicalId(outgoingLinks.at(0)), "Guard").toString() == "итерация")
+		&& (mRobotCGenerator->api()->property(mRobotCGenerator->api()->logicalId(outgoingLinks.at(1)), "Guard").toString() == "итерация") )
 	) {
 		return false;
 	}

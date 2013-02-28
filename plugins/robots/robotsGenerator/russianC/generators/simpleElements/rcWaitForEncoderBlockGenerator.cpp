@@ -14,7 +14,8 @@ QList<SmartLine> WaitForEncoderBlockGenerator::convertElementIntoDirectCommand(R
 
 	QString const port = nxtGen->api()->stringProperty(logicElementId, "Port");
 	QString const tachoLimit = nxtGen->api()->stringProperty(logicElementId, "TachoLimit");
-	result.append(SmartLine("while (nxt_motor_get_count(NXT_PORT_" + port + ") < " + tachoLimit + ")"
+	// ?
+	result.append(SmartLine(QString::fromUtf8("пока (энкодер(порт_") + port + ") < " + tachoLimit + ")"
 			, elementId));
 	result.append(SmartLine("{", elementId));
 	result.append(SmartLine("}", elementId));

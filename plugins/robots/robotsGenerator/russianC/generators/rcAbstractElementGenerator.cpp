@@ -6,7 +6,7 @@ using namespace robots::russianC;
 
 AbstractElementGenerator::AbstractElementGenerator(RussianCRobotGenerator *mainGenerator
 		, qReal::Id const &elementId)
-	: mNxtGen(mainGenerator), mElementId(elementId)
+	: mRobotCGenerator(mainGenerator), mElementId(elementId)
 {
 }
 
@@ -17,9 +17,9 @@ AbstractElementGenerator::~AbstractElementGenerator()
 void AbstractElementGenerator::createListsForIncomingConnections()
 {
 	//connects string lists in mGeneratedStringSet with mElementId in mElementToStringListNumbers
-	for (int i = 1; i < mNxtGen->api()->incomingConnectedElements(mElementId).size(); i++) {
-		mNxtGen->generatedStringSet() << QList<SmartLine>();
-		mNxtGen->elementToStringListNumbers()[mElementId.toString()] << mNxtGen->generatedStringSet().size() - 1;
+	for (int i = 1; i < mRobotCGenerator->api()->incomingConnectedElements(mElementId).size(); i++) {
+		mRobotCGenerator->generatedStringSet() << QList<SmartLine>();
+		mRobotCGenerator->elementToStringListNumbers()[mElementId.toString()] << mRobotCGenerator->generatedStringSet().size() - 1;
 	}
 }
 
@@ -29,21 +29,21 @@ bool AbstractElementGenerator::generate()
 		return false;
 	}
 
-	if (mNxtGen->elementToStringListNumbers().contains(mElementId.toString())) {
+	if (mRobotCGenerator->elementToStringListNumbers().contains(mElementId.toString())) {
 		//if we have already observed this element with more than 1 incoming connection
 
 		qReal::Id loopElement = mElementId;
-		if (!mNxtGen->previousLoopElements().empty()) {
-			loopElement = mNxtGen->previousLoopElementsPop();
+		if (!mRobotCGenerator->previousLoopElements().empty()) {
+			loopElement = mRobotCGenerator->previousLoopElementsPop();
 		}
 
 		//loopElement must create loop code
-		AbstractElementGenerator *loopElementGen = ElementGeneratorFactory::generator(mNxtGen, loopElement, *mNxtGen->api());
+		AbstractElementGenerator *loopElementGen = ElementGeneratorFactory::generator(mRobotCGenerator, loopElement, *mRobotCGenerator->api());
 
-		int num = mNxtGen->elementToStringListNumbersPop(loopElement.toString());
-		QList<SmartLine> set = mNxtGen->generatedStringSet()[num] + loopElementGen->addLoopCodeInPrefixForm();
-		mNxtGen->setGeneratedStringSet(num, set);
-		mNxtGen->generatedStringSet() << loopElementGen->addLoopCodeInPostfixForm();
+		int num = mRobotCGenerator->elementToStringListNumbersPop(loopElement.toString());
+		QList<SmartLine> set = mRobotCGenerator->generatedStringSet()[num] + loopElementGen->addLoopCodeInPrefixForm();
+		mRobotCGenerator->setGeneratedStringSet(num, set);
+		mRobotCGenerator->generatedStringSet() << loopElementGen->addLoopCodeInPostfixForm();
 
 		return true;
 	}

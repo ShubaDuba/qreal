@@ -12,7 +12,7 @@ QList<SmartLine> NullificationEncoderGenerator::convertElementIntoDirectCommand(
 {
 	QList<SmartLine> result;
 	QString const port = nxtGen->api()->stringProperty(logicElementId, "Port");
-	result.append(SmartLine("nxt_motor_set_count(NXT_PORT_" + port + ", 0);", elementId));
+	result.append(SmartLine(QString::fromUtf8("установить_энкодер(порт_") + port + ", 0);", elementId));
 
 	return result;
 }

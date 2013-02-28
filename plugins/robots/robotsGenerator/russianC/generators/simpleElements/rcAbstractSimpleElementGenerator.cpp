@@ -28,13 +28,13 @@ QList<QString> AbstractSimpleElementGenerator::portsToEngineNames(QString const 
 	QList<QString> result;
 
 	if (portsProperty.contains("A")) {
-		result.append("NXT_PORT_A");
+		result.append(QString::fromUtf8("порт_A"));
 	}
 	if (portsProperty.contains("B")) {
-		result.append("NXT_PORT_B");
+		result.append(QString::fromUtf8("порт_B"));
 	}
 	if (portsProperty.contains("C")) {
-		result.append("NXT_PORT_C");
+		result.append(QString::fromUtf8("порт_C"));
 	}
 
 	return result;

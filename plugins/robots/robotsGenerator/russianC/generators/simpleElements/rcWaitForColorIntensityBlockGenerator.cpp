@@ -11,11 +11,11 @@ WaitForColorIntensityBlockGenerator::WaitForColorIntensityBlockGenerator()
 void WaitForColorIntensityBlockGenerator::addInitAndTerminateCode(RussianCRobotGenerator *nxtGen
 		, QString const &port, qReal::Id const elementId)
 {
-	QString const partInitCode = "ecrobot_init_nxtcolorsensor(" + port;
+	QString const partInitCode = QString::fromUtf8("подготовить_сенсор_цвета(") + port;
 	if (!ListSmartLine::isContainsPart(nxtGen->initCode(), partInitCode)) {
 		// i don't no, mb NXT_LIGHTSENSOR_NONE, NXT_COLORSENSOR_DEACTIVATE
-		QString const initCode = "ecrobot_init_nxtcolorsensor(" + port + "," + "NXT_COLORSENSOR);";
-		QString const terminateCode = "ecrobot_term_nxtcolorsensor(" + port + ");";
+		QString const initCode = QString::fromUtf8("подготовить_сенсор_цвета(") + port + ");";
+		QString const terminateCode = QString::fromUtf8("остановить_сенсор_цвета(") + port + ");";
 		nxtGen->initCode().append(SmartLine(initCode, elementId));
 		nxtGen->terminateCode().append(SmartLine(terminateCode, elementId));
 	}
@@ -32,12 +32,11 @@ QList<SmartLine> WaitForColorIntensityBlockGenerator::convertElementIntoDirectCo
 
 	QString const condition = inequalitySign + " " + intensity;
 
-	result.append(SmartLine("while (!(ecrobot_get_nxtcolorsensor_light(NXT_PORT_S" + portStr
-			+ ") " + condition + "))", elementId));
-	result.append(SmartLine("{", elementId));
+	result.append(SmartLine(QString::fromUtf8("пока (не (сенсор_света(порт_") + portStr
+			+ ") " + condition + ")) {", elementId));
 	result.append(SmartLine("}", elementId));
 
-	addInitAndTerminateCode(nxtGen, "NXT_PORT_S" + portStr, elementId);
+	addInitAndTerminateCode(nxtGen, QString::fromUtf8("порт_") + portStr, elementId);
 
 	return result;
 }

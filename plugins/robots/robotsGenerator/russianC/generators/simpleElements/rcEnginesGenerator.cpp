@@ -13,11 +13,11 @@ void EnginesGenerator::addInitAndTerminateCode(RussianCRobotGenerator *nxtGen  /
 {
 	QString const initTerminateVelocity = "0";
 	QString const initTerminateBrakeMode = "1";
-	QString const initCodeEngines = "nxt_motor_set_speed("
+	QString const initCodeEngines = QString::fromUtf8("задать_скорость_мотора(")
 			+ enginePort + ", "
 			+ initTerminateVelocity + ", "
 			+ initTerminateBrakeMode + ");";
-	QString const terminateCodeEngines = "nxt_motor_set_speed("
+	QString const terminateCodeEngines = QString::fromUtf8("задать_скорость_мотора(")
 			+ enginePort + ", "
 			+ initTerminateVelocity + ", "
 			+ initTerminateBrakeMode + ");";
@@ -40,11 +40,11 @@ QList<SmartLine> EnginesGenerator::convertElementIntoDirectCommand(RussianCRobot
 
 	foreach (QString const &enginePort, portsToEngineNames(nxtGen->api()->stringProperty(logicElementId, "Ports"))) {
 
-		result.append(SmartLine("nxt_motor_set_speed(NXT_PORT_"
+		result.append(SmartLine(QString::fromUtf8("задать_скорость_мотора(")
 				+ enginePort + ", "
 				+ signRotate + power + ", "
 				+ brakeMode + ");", elementId));
-		addInitAndTerminateCode(nxtGen, elementId, "NXT_PORT_" + enginePort);
+		addInitAndTerminateCode(nxtGen, elementId, "" + enginePort);
 	}
 
 	return result;

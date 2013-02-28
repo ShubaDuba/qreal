@@ -14,7 +14,7 @@ QList<SmartLine> FinalNodeGenerator::convertElementIntoDirectCommand(RussianCRob
 	Q_UNUSED(logicElementId)
 
 	QList<SmartLine> result;
-	result.append(SmartLine("TerminateTask();", elementId));
+	result.append(SmartLine(QString::fromUtf8("завершить_выполнение();"), elementId));
 
 	return result;
 }

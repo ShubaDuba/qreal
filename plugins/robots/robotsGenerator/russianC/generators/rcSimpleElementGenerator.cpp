@@ -16,28 +16,28 @@ QList<SmartLine> SimpleElementGenerator::convertBlockIntoCode()
 {
 	QList<SmartLine> result;
 
-	qReal::Id const logicElementId = mNxtGen->api()->logicalId(mElementId); //TODO
+	qReal::Id const logicElementId = mRobotCGenerator->api()->logicalId(mElementId); //TODO
 
-	result = AbstractSimpleElementGenerator::convertedCode(mNxtGen, mElementId, logicElementId);
+	result = AbstractSimpleElementGenerator::convertedCode(mRobotCGenerator, mElementId, logicElementId);
 	return result;
 }
 
 bool SimpleElementGenerator::nextElementsGeneration()
 {
-	IdList const outgoingConnectedElements = mNxtGen->api()->outgoingConnectedElements(mElementId);
-	mNxtGen->generatedStringSet() << convertBlockIntoCode();
+	IdList const outgoingConnectedElements = mRobotCGenerator->api()->outgoingConnectedElements(mElementId);
+	mRobotCGenerator->generatedStringSet() << convertBlockIntoCode();
 
 	if (outgoingConnectedElements.size() == 1) {
 		if (outgoingConnectedElements.at(0) == Id::rootId()) {
-			mNxtGen->errorReporter().addError("Element " + mElementId.toString() + " has no"\
+			mRobotCGenerator->errorReporter().addError("Element " + mElementId.toString() + " has no"\
 					" correct next element because its link has no end object."\
 					" May be you need to connect it to diagram object.", mElementId);
 			return false;
 		}
 
-		AbstractElementGenerator* const gen = ElementGeneratorFactory::generator(mNxtGen
-				, outgoingConnectedElements.at(0), *mNxtGen->api());
-		mNxtGen->previousElement() = mElementId;
+		AbstractElementGenerator* const gen = ElementGeneratorFactory::generator(mRobotCGenerator
+				, outgoingConnectedElements.at(0), *mRobotCGenerator->api());
+		mRobotCGenerator->previousElement() = mElementId;
 		gen->generate();
 		delete gen;
 		return true;
@@ -45,7 +45,7 @@ bool SimpleElementGenerator::nextElementsGeneration()
 		return true;
 	} else {
 		//case of error end of diagram
-		mNxtGen->errorReporter().addError(QObject::tr("There is no outgoing connected element with no final node!")
+		mRobotCGenerator->errorReporter().addError(QObject::tr("There is no outgoing connected element with no final node!")
 				, mElementId);
 		return false;
 	}
@@ -56,7 +56,7 @@ bool SimpleElementGenerator::nextElementsGeneration()
 QList<SmartLine> SimpleElementGenerator::addLoopCodeInPrefixForm()
 {
 	QList<SmartLine> result;
-	result << SmartLine("while (true) {", mElementId, SmartLine::increase);
+	result << SmartLine(QString::fromUtf8("повторять_бесконечно {"), mElementId, SmartLine::increase);
 	return result;
 }
 
@@ -69,10 +69,10 @@ QList<SmartLine> SimpleElementGenerator::addLoopCodeInPostfixForm()
 
 bool SimpleElementGenerator::preGenerationCheck()
 {
-	IdList const outgoingConnectedElements = mNxtGen->api()->outgoingConnectedElements(mElementId);
+	IdList const outgoingConnectedElements = mRobotCGenerator->api()->outgoingConnectedElements(mElementId);
 	if (outgoingConnectedElements.size() > 1) {
 		//case of error in diagram
-		mNxtGen->errorReporter().addError(QObject::tr("There are more than 1 outgoing connected elements with simple robot element!"), mElementId);
+		mRobotCGenerator->errorReporter().addError(QObject::tr("There are more than 1 outgoing connected elements with simple robot element!"), mElementId);
 		return false;
 	}
 

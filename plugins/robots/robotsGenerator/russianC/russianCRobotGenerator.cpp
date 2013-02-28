@@ -52,7 +52,7 @@ QString RussianCRobotGenerator::generateVariableString()
 	QString res;
 	foreach (SmartLine const &curVariable, mVariables) {
 		if (!curVariable.text().contains(" ")) {
-			res = res + "static int " + curVariable.text() + ";\n";
+			res = res + QString::fromUtf8("целое ") + curVariable.text() + ";\n";
 		}
 	}
 	return "\n" + res;
@@ -81,7 +81,7 @@ void RussianCRobotGenerator::generateMakeFile(
 		, QString const &projectName
 		, QString const &projectDir)
 {
-	QFile templateMakeFile(":/nxtOSEK/templates/template.makefile");
+	QFile templateMakeFile(":/russianC/templates/template.makefile");
 	if (!templateMakeFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		mErrorReporter.addError("cannot open \"" + templateMakeFile.fileName() + "\"");
 		return;
@@ -138,20 +138,20 @@ void RussianCRobotGenerator::deleteResidualLabels(QString const &projectName)
 void RussianCRobotGenerator::generateFilesForBalancer(QString const &projectDir)
 {
 	if (mBalancerIsActivated) {
-		QFile::copy(":/nxtOSEK/templates/balancer/balancer_param.c", projectDir + "/" + "balancer_param.c");
-		QFile::copy(":/nxtOSEK/templates/balancer/balancer.h", projectDir + "/" +"balancer.h");
-		QFile::copy(":/nxtOSEK/templates/balancer/balancer_types.h", projectDir + "/" + "balancer_types.h");
-		QFile::copy(":/nxtOSEK/templates/balancer/libnxtway_gs_balancer.a", projectDir + "/" + "libnxtway_gs_balancer.a");
-		QFile::copy(":/nxtOSEK/templates/balancer/rt_SATURATE.h", projectDir + "/" + "rt_SATURATE.h");
-		QFile::copy(":/nxtOSEK/templates/balancer/rtwtypes.h", projectDir + "/" + "rtwtypes.h");
+		QFile::copy(":/russianC/templates/balancer/balancer_param.c", projectDir + "/" + "balancer_param.c");
+		QFile::copy(":/russianC/templates/balancer/balancer.h", projectDir + "/" +"balancer.h");
+		QFile::copy(":/russianC/templates/balancer/balancer_types.h", projectDir + "/" + "balancer_types.h");
+		QFile::copy(":/russianC/templates/balancer/libnxtway_gs_balancer.a", projectDir + "/" + "libnxtway_gs_balancer.a");
+		QFile::copy(":/russianC/templates/balancer/rt_SATURATE.h", projectDir + "/" + "rt_SATURATE.h");
+		QFile::copy(":/russianC/templates/balancer/rtwtypes.h", projectDir + "/" + "rtwtypes.h");
 	}
 }
 
 void RussianCRobotGenerator::createProjectDir(QString const &projectDir)
 {
 	if (!QDir(projectDir).exists()) {
-		if (!QDir("nxt-tools/").exists()) {
-			QDir().mkdir("nxt-tools/");
+		if (!QDir("nxt-tools/russianC/").exists()) {
+			QDir().mkdir("nxt-tools/russianC/");
 		}
 		QDir().mkdir(projectDir);
 	}
@@ -170,7 +170,7 @@ void RussianCRobotGenerator::generate()
 
 	int curInitialNodeNumber = 0;
 	QString const projectName = "example" + QString::number(curInitialNodeNumber);
-	QString const projectDir = "nxt-tools/" + projectName;
+	QString const projectDir = "nxt-tools/russianC/" + projectName;
 
 	initializeGeneration(projectDir);
 
@@ -202,8 +202,8 @@ void RussianCRobotGenerator::initializeGeneration(QString const &projectDir)
 {
 	createProjectDir(projectDir);
 
-	mResultString = utils::InFile::readAll(":/nxtOSEK/templates/template.c");
-	mResultOil = utils::InFile::readAll(":/nxtOSEK/templates/template.oil");
+	mResultString = utils::InFile::readAll(":/russianC/templates/template.c");
+	mResultOil = utils::InFile::readAll(":/russianC/templates/template.oil");
 }
 
 QList<SmartLine> &RussianCRobotGenerator::variables()
@@ -298,7 +298,7 @@ void RussianCRobotGenerator::addResultCodeInCFile(int curInitialNodeNumber)
 	resultInitCode = addTabAndEndOfLine(mInitCode, resultInitCode);
 	QString resultTerminateCode;
 	resultTerminateCode = addTabAndEndOfLine(mTerminateCode, resultTerminateCode);
-	resultCode = "TASK(OSEK_Task_Number_" + QString::number(curInitialNodeNumber) +")\n{\n" + resultCode + "}";
+	resultCode = QString::fromUtf8("программа\n{\n") + resultCode + "}";
 	insertCode(resultCode, resultInitCode, resultTerminateCode, QString::number(curInitialNodeNumber));
 }
 

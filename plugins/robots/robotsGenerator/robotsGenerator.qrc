@@ -11,5 +11,15 @@
         <file>nxtOSEK/templates/balancer/rt_SATURATE.h</file>
         <file>nxtOSEK/templates/balancer/rtwtypes.h</file>
         <file>nxtOSEK/templates/taskTemplate.oil</file>
+        <file>russianC/templates/taskTemplate.oil</file>
+        <file>russianC/templates/template.c</file>
+        <file>russianC/templates/template.makefile</file>
+        <file>russianC/templates/template.oil</file>
+        <file>russianC/templates/balancer/balancer.h</file>
+        <file>russianC/templates/balancer/balancer_param.c</file>
+        <file>russianC/templates/balancer/balancer_types.h</file>
+        <file>russianC/templates/balancer/libnxtway_gs_balancer.a</file>
+        <file>russianC/templates/balancer/rt_SATURATE.h</file>
+        <file>russianC/templates/balancer/rtwtypes.h</file>
     </qresource>
 </RCC>

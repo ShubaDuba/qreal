@@ -42,7 +42,7 @@ QList<ActionInfo> RobotsGeneratorPlugin::actions()
 	connect(&mGenerateNxtOsekCodeAction, SIGNAL(triggered()), this, SLOT(generateRobotSourceCode()));
 
 	mGenerateRussianCCodeAction.setText(tr("Generate russian C code"));
-	ActionInfo generateRussianCCodeActionInfo(&mGenerateNxtOsekCodeAction, "generators", "tools");
+	ActionInfo generateRussianCCodeActionInfo(&mGenerateRussianCCodeAction, "generators", "tools");
 	connect(&mGenerateRussianCCodeAction, SIGNAL(triggered()), this, SLOT(generateRussianCCode()));
 
 	mFlashRobotAction.setText(tr("Flash robot"));
@@ -93,6 +93,7 @@ void RobotsGeneratorPlugin::generateRobotSourceCode()
 
 	if (inStream) {
 		mMainWindowInterface->showInTextEditor("example0", inStream->readAll());
+		delete inStream;
 	}
 }
 
@@ -109,14 +110,16 @@ void RobotsGeneratorPlugin::generateRussianCCode()
 		return;
 	}
 
-	QFile file("nxt-tools/example0/example0.c");
+	QFile file("nxt-tools/russianC/example0/example0.c");
 	QTextStream *inStream = NULL;
 	if (!file.isOpen() && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		inStream = new QTextStream(&file);
+		inStream->setCodec("UTF-8");
 	}
 
 	if (inStream) {
 		mMainWindowInterface->showInTextEditor("example0", inStream->readAll());
+		delete inStream;
 	}
 }
 

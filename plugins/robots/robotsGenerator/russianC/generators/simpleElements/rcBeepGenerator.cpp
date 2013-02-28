@@ -11,7 +11,7 @@ QList<SmartLine> BeepGenerator::convertElementIntoDirectCommand(RussianCRobotGen
 		, qReal::Id const elementId, qReal::Id const logicElementId)
 {
 	QList<SmartLine> result;
-	result.append(SmartLine("ecrobot_sound_tone(1000, 100, " + nxtGen->api()->stringProperty(logicElementId
+	result.append(SmartLine(QString::fromUtf8("играть_звук(1000, 100, ") + nxtGen->api()->stringProperty(logicElementId
 			, "Volume") + ");", elementId));
 
 	return result;

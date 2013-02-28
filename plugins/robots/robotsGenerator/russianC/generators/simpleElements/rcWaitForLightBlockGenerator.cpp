@@ -11,9 +11,9 @@ WaitForLightBlockGenerator::WaitForLightBlockGenerator()
 void WaitForLightBlockGenerator::addInitAndTerminateCode(RussianCRobotGenerator *nxtGen
 			, QString const &port, qReal::Id const elementId)
 {
-	QString const initCode = "ecrobot_set_light_sensor_active(" + port + ");";
+	QString const initCode = QString::fromUtf8("подготовить_сенсор_света(") + port + ");";
 	if (!ListSmartLine::isContains(nxtGen->initCode(), initCode)) {
-		QString const terminateCode = "ecrobot_set_light_sensor_inactive(" + port + ");";
+		QString const terminateCode = QString::fromUtf8("остановить_сенсор_света(") + port + ");";
 		nxtGen->initCode().append(SmartLine(initCode, elementId));
 		nxtGen->terminateCode().append(SmartLine(terminateCode, elementId));
 	}
@@ -24,7 +24,7 @@ QList<SmartLine> WaitForLightBlockGenerator::convertElementIntoDirectCommand(Rus
 {
 	QList<SmartLine> result;
 
-	QString const port = "NXT_PORT_S" + nxtGen->api()->stringProperty(logicElementId, "Port");
+	QString const port = QString::fromUtf8("порт_") + nxtGen->api()->stringProperty(logicElementId, "Port");
 
 	QString const percents = nxtGen->api()->stringProperty(logicElementId, "Percents");
 	QString const inequalitySign = transformSign(QString(nxtGen->api()->stringProperty(logicElementId
@@ -32,9 +32,8 @@ QList<SmartLine> WaitForLightBlockGenerator::convertElementIntoDirectCommand(Rus
 
 	QString const condition = inequalitySign + " " + percents;
 
-	result.append(SmartLine("while (!(ecrobot_get_light_sensor(" + port
-			+ ") " + condition + "))", elementId));
-	result.append(SmartLine("{", elementId));
+	result.append(SmartLine(QString::fromUtf8("пока (не (сенсор_света(") + port
+			+ ") " + condition + ")) {", elementId));
 	result.append(SmartLine("}", elementId));
 
 	addInitAndTerminateCode(nxtGen, port, elementId);

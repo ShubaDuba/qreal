@@ -35,34 +35,34 @@ QList<SmartLine> InitialBlockGenerator::convertElementIntoDirectCommand(RussianC
 
 		QString const initEcrobotColorSensorPortS = "ecrobot_init_nxtcolorsensor(NXT_PORT_S";
 		if (portValue == "Ультразвуковой сенсор") {
-			initCode.append(SmartLine("ecrobot_init_sonar_sensor(NXT_PORT_S" + QString::number(i) + ");"
+			initCode.append(SmartLine("ecrobot_init_sonar_sensor(порт_" + QString::number(i) + ");"
 					, elementId));
-			terminateCode.append(SmartLine("ecrobot_term_sonar_sensor(NXT_PORT_S" + QString::number(i) + ");"
+			terminateCode.append(SmartLine("ecrobot_term_sonar_sensor(порт_" + QString::number(i) + ");"
 					, elementId));
 		} else if (portValue == "Сенсор цвета (все цвета)") {
 			initCode.append(SmartLine(initEcrobotColorSensorPortS + QString::number(i)
 				+ ", NXT_LIGHTSENSOR_WHITE);", elementId));
-			terminateCode.append(SmartLine("ecrobot_term_nxtcolorsensor(NXT_PORT_S"
+			terminateCode.append(SmartLine("ecrobot_term_nxtcolorsensor(порт_"
 			+ QString::number(i) + ");", elementId));
 		} else if (portValue == "Сенсор цвета (красный)") {
 			initCode.append(SmartLine(initEcrobotColorSensorPortS + QString::number(i)
 				+ ",  NXT_LIGHTSENSOR_RED);", elementId));
-			terminateCode.append(SmartLine("ecrobot_term_nxtcolorsensor(NXT_PORT_S"
+			terminateCode.append(SmartLine("ecrobot_term_nxtcolorsensor(порт_"
 			+ QString::number(i) + ");", elementId));
 		} else if (portValue == "Сенсор цвета (зеленый)") {
 			initCode.append(SmartLine(initEcrobotColorSensorPortS + QString::number(i)
 				+ ", NXT_LIGHTSENSOR_GREEN);", elementId));
-			terminateCode.append(SmartLine("ecrobot_term_nxtcolorsensor(NXT_PORT_S"
+			terminateCode.append(SmartLine("ecrobot_term_nxtcolorsensor(порт_"
 			+ QString::number(i) + ");", elementId));
 		} else if (portValue == "Сенсор цвета (синий)") {
 			initCode.append(SmartLine(initEcrobotColorSensorPortS + QString::number(i)
 				+ ", NXT_LIGHTSENSOR_BLUE);", elementId));
-			terminateCode.append(SmartLine("ecrobot_term_nxtcolorsensor(NXT_PORT_S"
+			terminateCode.append(SmartLine("ecrobot_term_nxtcolorsensor(порт_"
 			+ QString::number(i) + ");", elementId));
 		} else if (portValue == "Сенсор цвета (пассивный)") {
 			initCode.append(SmartLine(initEcrobotColorSensorPortS + QString::number(i)
 				+ ", NXT_COLORSENSOR);", elementId));
-			terminateCode.append(SmartLine("ecrobot_term_nxtcolorsensor(NXT_PORT_S"
+			terminateCode.append(SmartLine("ecrobot_term_nxtcolorsensor(порт_"
 			+ QString::number(i) + ");", elementId));
 		}
 	}

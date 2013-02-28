@@ -11,7 +11,7 @@ QList<SmartLine> PlayToneGenerator::convertElementIntoDirectCommand(RussianCRobo
 		, qReal::Id const elementId, qReal::Id const logicElementId)
 {
 	QList<SmartLine> result;
-	result.append(SmartLine("ecrobot_sound_tone(" + nxtGen->api()->stringProperty(logicElementId, "Frequency") + ", "
+	result.append(SmartLine(QString::fromUtf8("играть_звук(") + nxtGen->api()->stringProperty(logicElementId, "Frequency") + ", "
 			 + nxtGen->api()->stringProperty(logicElementId, "Duration") + ", "
 			 + nxtGen->api()->stringProperty(logicElementId, "Volume") + ");", elementId));
 

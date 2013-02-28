@@ -31,7 +31,7 @@ protected:
 	virtual bool preGenerationCheck() = 0;
 	virtual bool nextElementsGeneration() = 0;
 
-	RussianCRobotGenerator *mNxtGen;
+	RussianCRobotGenerator *mRobotCGenerator;
 	qReal::Id mElementId;
 };
 
