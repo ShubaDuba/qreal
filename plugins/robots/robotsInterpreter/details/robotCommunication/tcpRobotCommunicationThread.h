@@ -13,13 +13,13 @@ namespace robots
 namespace details
 {
 
-class TcpCommunicationThread : public RobotCommunicationThreadInterface
+class TcpRobotCommunicationThread : public RobotCommunicationThreadInterface
 {
 	Q_OBJECT
 
 public:
-	TcpCommunicationThread();
-	virtual ~TcpCommunicationThread();
+	TcpRobotCommunicationThread();
+	virtual ~TcpRobotCommunicationThread();
 
 public slots:
 	virtual void send(QObject *addressee, QByteArray const &buffer, unsigned const responseSize);
@@ -32,7 +32,7 @@ public slots:
 	virtual void checkConsistency();
 
 private:
-	QTcpSocket mSocket;
+	QTcpSocket *mSocket;
 };
 
 }

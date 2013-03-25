@@ -43,7 +43,7 @@ PreferencesRobotSettingsPage::PreferencesRobotSettingsPage(QWidget *parent)
 		mUi->directInputComPortLineEdit->hide();
 		mUi->noComPortsFoundLabel->hide();
 
-		foreach (QextPortInfo info, ports) {
+		foreach (QextPortInfo const &info, ports) {
 			QRegExp const portNameRegexp("COM\\d+", Qt::CaseInsensitive);
 			if (portNameRegexp.indexIn(info.portName) != -1) {
 				QString const portName = portNameRegexp.cap();

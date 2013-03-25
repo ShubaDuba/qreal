@@ -7,6 +7,7 @@
 #include "details/robotImplementations/unrealRobotModelImplementation.h"
 #include "details/robotCommunication/bluetoothRobotCommunicationThread.h"
 #include "details/robotCommunication/usbRobotCommunicationThread.h"
+#include "details/robotCommunication/tcpRobotCommunicationThread.h"
 #include "details/tracer.h"
 #include "details/debugHelper.h"
 
@@ -394,8 +395,10 @@ void Interpreter::setCommunicator(QString const &valueOfCommunication)
 	RobotCommunicationThreadInterface *communicator = NULL;
 	if (valueOfCommunication == "bluetooth") {
 		communicator = new BluetoothRobotCommunicationThread();
-	} else {
+	} else if (valueOfCommunication == "usb") {
 		communicator = new UsbRobotCommunicationThread();
+	} else {
+		communicator = new TcpRobotCommunicationThread();
 	}
 	mLastCommunicationValue = valueOfCommunication;
 
