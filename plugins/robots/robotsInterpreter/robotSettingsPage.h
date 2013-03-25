@@ -34,11 +34,9 @@ protected:
 	void changeEvent(QEvent *e);
 
 private slots:
-	void activatedUnrealModel(bool checked);
-	void bluetoothCommunucationToggled();
+	void onSomethingChanged();
 	void manualComPortCheckboxChecked(bool state);
 	void refreshPorts();
-	void refreshCommunicationGroup();
 
 private:
 	void initRobotModelType(robotModelType::robotModelTypeEnum type);

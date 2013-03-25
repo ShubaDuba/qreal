@@ -14,14 +14,15 @@ PreferencesRobotSettingsPage::PreferencesRobotSettingsPage(QWidget *parent)
 	mIcon = QIcon(":/icons/preferences/robot.png");
 	mUi->setupUi(this);
 
-	connect(mUi->nullModelRadioButton, SIGNAL(toggled(bool)), this, SLOT(activatedUnrealModel(bool)));
-	connect(mUi->d2ModelRadioButton, SIGNAL(toggled(bool)), this, SLOT(activatedUnrealModel(bool)));
-	connect(mUi->bluetoothRadioButton, SIGNAL(toggled(bool)), this, SLOT(bluetoothCommunucationToggled()));
+	connect(mUi->nullModelRadioButton, SIGNAL(toggled(bool)), this, SLOT(onSomethingChanged()));
+	connect(mUi->d2ModelRadioButton, SIGNAL(toggled(bool)), this, SLOT(onSomethingChanged()));
+	connect(mUi->realModelRadioButton, SIGNAL(toggled(bool)), this, SLOT(onSomethingChanged()));
+	connect(mUi->usbRadioButton, SIGNAL(toggled(bool)), this, SLOT(onSomethingChanged()));
+	connect(mUi->bluetoothRadioButton, SIGNAL(toggled(bool)), this, SLOT(onSomethingChanged()));
+	connect(mUi->tcpRadioButton, SIGNAL(toggled(bool)), this, SLOT(onSomethingChanged()));
+
 	connect(mUi->manualComPortCheckbox, SIGNAL(toggled(bool)), this, SLOT(manualComPortCheckboxChecked(bool)));
 
-	connect(mUi->d2ModelRadioButton, SIGNAL(toggled(bool)), this, SLOT(refreshCommunicationGroup()));
-	connect(mUi->nullModelRadioButton, SIGNAL(toggled(bool)), this, SLOT(refreshCommunicationGroup()));
-	connect(mUi->realModelRadioButton, SIGNAL(toggled(bool)), this, SLOT(refreshCommunicationGroup()));
 
 	QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
 	QString const defaultPortName = SettingsManager::value("bluetoothPortName").toString();
@@ -68,6 +69,8 @@ PreferencesRobotSettingsPage::PreferencesRobotSettingsPage(QWidget *parent)
 	initTypeOfCommunication(typeOfCommunication);
 
 	mUi->textVisibleCheckBox->setChecked(SettingsManager::value("showTitlesForRobots").toBool());
+	mUi->tcpServerLineEdit->setText(SettingsManager::value("tcpServer").toString());
+	mUi->tcpPortSpinBox->setValue(SettingsManager::value("tcpPort").toInt());
 }
 
 PreferencesRobotSettingsPage::~PreferencesRobotSettingsPage()
@@ -92,21 +95,22 @@ void PreferencesRobotSettingsPage::initRobotModelType(robotModelType::robotModel
 {
 	if (type == robotModelType::null) {
 		mUi->nullModelRadioButton->setChecked(true);
-		activatedUnrealModel(true);
 	} else if (type == robotModelType::unreal) {
 		mUi->d2ModelRadioButton->setChecked(true);
-		activatedUnrealModel(true);
 	} else {
 		mUi->realModelRadioButton->setChecked(true);
 	}
+	onSomethingChanged();
 }
 
 void PreferencesRobotSettingsPage::initTypeOfCommunication(QString const &type)
 {
 	if (type == "bluetooth") {
 		mUi->bluetoothRadioButton->setChecked(true);
-	} else {
+	} else if (type == "usb") {
 		mUi->usbRadioButton->setChecked(true);
+	} else {
+		mUi->tcpRadioButton->setChecked(true);
 	}
 }
 
@@ -128,19 +132,19 @@ bool PreferencesRobotSettingsPage::textVisible() const
 
 QString PreferencesRobotSettingsPage::selectedCommunication() const
 {
-	return mUi->bluetoothRadioButton->isChecked()
-			? "bluetooth"
-			: "usb";
+	return mUi->bluetoothRadioButton->isChecked() ? "bluetooth"
+			: mUi->usbRadioButton->isChecked() ? "usb" : "tcp";
 }
 
-void PreferencesRobotSettingsPage::activatedUnrealModel(bool checked)
+void PreferencesRobotSettingsPage::onSomethingChanged()
 {
-	mUi->bluetoothSettingsGroupBox->setEnabled(!checked && mUi->bluetoothRadioButton->isChecked());
-}
+	bool const realModelChecked = mUi->realModelRadioButton->isChecked();
+	bool const bluetoohChecked = mUi->bluetoothRadioButton->isChecked() && realModelChecked;
+	bool const tcpChecked = mUi->tcpRadioButton->isChecked() && realModelChecked;
 
-void PreferencesRobotSettingsPage::bluetoothCommunucationToggled()
-{
-	activatedUnrealModel(!mUi->realModelRadioButton->isChecked());
+	mUi->communicationTypeGroupBox->setEnabled(realModelChecked);
+	mUi->bluetoothSettingsGroupBox->setVisible(bluetoohChecked);
+	mUi->tcpSettingsGroupBox->setVisible(tcpChecked);
 }
 
 void PreferencesRobotSettingsPage::manualComPortCheckboxChecked(bool state)
@@ -180,6 +184,8 @@ void PreferencesRobotSettingsPage::save()
 	SettingsManager::setValue("bluetoothPortName", selectedPortName());
 	SettingsManager::setValue("valueOfCommunication", selectedCommunication());
 	SettingsManager::setValue("showTitlesForRobots", textVisible());
+	SettingsManager::setValue("tcpServer", mUi->tcpServerLineEdit->text());
+	SettingsManager::setValue("tcpPort", mUi->tcpPortSpinBox->value());
 	mSensorsWidget->save();
 	emit saved();
 }
@@ -187,10 +193,4 @@ void PreferencesRobotSettingsPage::save()
 void PreferencesRobotSettingsPage::refreshPorts()
 {
 	mSensorsWidget->refresh();
-}
-
-void PreferencesRobotSettingsPage::refreshCommunicationGroup()
-{
-	bool const communicationEnabled = mUi->realModelRadioButton->isChecked();
-	mUi->communicationTypeGroupBox->setEnabled(communicationEnabled);
 }

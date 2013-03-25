@@ -32,10 +32,8 @@ bool UsbRobotCommunicationThread::isOpen()
 	return mActive && mFantom.isAvailable();
 }
 
-void UsbRobotCommunicationThread::connect(QString const &portName)
+void UsbRobotCommunicationThread::connect()
 {
-	Q_UNUSED(portName);
-
 	if (!mFantom.isAvailable()) {
 		return;
 	}
@@ -132,9 +130,9 @@ void UsbRobotCommunicationThread::send(QByteArray const &buffer
 	}
 }
 
-void UsbRobotCommunicationThread::reconnect(QString const &portName)
+void UsbRobotCommunicationThread::reconnect()
 {
-	connect(portName);
+	connect();
 }
 
 void UsbRobotCommunicationThread::disconnect()

@@ -1,4 +1,4 @@
-QT += xml
+QT += xml network
 
 TEMPLATE = lib
 CONFIG += plugin
@@ -32,7 +32,7 @@ HEADERS += \
 	details/abstractTimer.h \
 	details/realTimer.h \
 	details/sensorsConfigurationWidget.h \
-    details/nullTimer.h
+	details/nullTimer.h \
 
 SOURCES += \
 	robotsPlugin.cpp \
@@ -50,7 +50,7 @@ SOURCES += \
 	details/abstractTimer.cpp \
 	details/realTimer.cpp \
 	details/sensorsConfigurationWidget.cpp \
-    details/nullTimer.cpp
+	details/nullTimer.cpp \
 
 FORMS += \
 	details/d2RobotModel/d2Form.ui \

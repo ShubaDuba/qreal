@@ -120,8 +120,7 @@ void RobotsPlugin::updateSettings()
 	robotModelType::robotModelTypeEnum typeOfRobotModel = static_cast<robotModelType::robotModelTypeEnum>(SettingsManager::instance()->value("robotModel").toInt());
 	mInterpreter.setRobotModelType(typeOfRobotModel);
 	QString const typeOfCommunication = SettingsManager::value("valueOfCommunication").toString();
-	QString const portName = SettingsManager::value("bluetoothPortName").toString();
-	mInterpreter.setCommunicator(typeOfCommunication, portName);
+	mInterpreter.setCommunicator(typeOfCommunication);
 	mInterpreter.configureSensors(
 			static_cast<sensorType::SensorTypeEnum>(SettingsManager::instance()->value("port1SensorType").toInt())
 			, static_cast<sensorType::SensorTypeEnum>(SettingsManager::instance()->value("port2SensorType").toInt())
