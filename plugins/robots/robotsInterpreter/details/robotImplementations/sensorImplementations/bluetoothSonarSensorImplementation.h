@@ -19,10 +19,6 @@ public:
 
 protected:
 	virtual void sensorSpecificProcessResponse(QByteArray const &reading);
-private:
-	virtual void setMode(sonarMode::SonarModeEnum const &mode);
-	virtual void writeRegister(sonarRegisters::SonarRegistersEnum const &reg, int value);
-	virtual void sendCommand(QByteArray const &command, int responseSize);//from i2c
 };
 
 }

@@ -16,3 +16,7 @@ void AbstractEncoderImplementation::sensorSpecificProcessResponse(const QByteArr
 {
 	Q_UNUSED(reading);
 }
+
+void AbstractEncoderImplementation::nullificate()
+{
+}

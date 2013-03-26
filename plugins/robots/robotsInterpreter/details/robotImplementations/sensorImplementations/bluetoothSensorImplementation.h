@@ -30,14 +30,15 @@ protected slots:
 	void readingDone(QObject *addressee, QByteArray const &reading);
 
 protected:
+	virtual void processResponse(QByteArray const &reading);
+	virtual void sensorSpecificProcessResponse(QByteArray const &reading);
+	QString portString() const;
+
 	RobotCommunicator *mRobotCommunicationInterface;
 	lowLevelSensorType::SensorTypeEnum mLowLevelSensorType;
 	sensorMode::SensorModeEnum mSensorMode;
 	bool mIsConfigured;
 	bool mResetDone;
-
-	virtual void processResponse(QByteArray const &reading);
-	virtual void sensorSpecificProcessResponse(QByteArray const &reading) = 0;
 };
 
 }

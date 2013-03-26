@@ -35,38 +35,27 @@ void RealMotorImplementation::setOutputState(int speed, int mode
 		, regulationMode::RegulationModeEnum regulation, int turnRatio, runState::RunStateEnum runState
 		, unsigned long tachoLimit)
 {
-	QByteArray command(15, 0);
-	command[0] = 13;  // command length.
-	command[1] = 0x00;
+	Q_UNUSED(mode)
+	Q_UNUSED(regulation)
+	Q_UNUSED(turnRatio)
+	Q_UNUSED(runState)
+	Q_UNUSED(tachoLimit)
 
-	command[2] = telegramType::directCommandNoResponse;
+	QString const motorType = mPort == details::outputPort::port3
+			? "right" : "left";
+	QString const command = QString("motor %1 %2\n").arg(motorType, QString::number(speed));
 
-	command[3] = commandCode::SETOUTPUTSTATE;
-
-	command[4] = mPort;  // output port
-	command[5] = speed;  // power set point (range: -100 -- 100)
-	command[6] = mode;  // mode (bit field)
-
-	command[7] = regulation;  // regulation
-	command[8] = turnRatio;  // turn ratio
-
-	command[9] = runState;  // run state
-
-	command[10] = tachoLimit;  // TachoLimit
-	command[11] = tachoLimit >> 8;  // TachoLimit
-	command[12] = tachoLimit >> 16;  // TachoLimit
-	command[13] = tachoLimit >> 24;  // TachoLimit
-	command[14] = 0;                 // TachoLimit, suddenly
-	mRobotCommunicationInterface->send(this, command, 3);
+	mRobotCommunicationInterface->send(this, command.toLatin1(), 0);
 }
 
 void RealMotorImplementation::resetMotorPosition(bool relative)
 {
-	QByteArray command(5, 0);
-	command[0] = 3;  // command length.
-	command[1] = 0x00;
-	command[2] = telegramType::directCommandNoResponse;
-	command[3] = commandCode::RESETMOTORPOSITION;
-	command[4] = relative;
-	mRobotCommunicationInterface->send(this, command, 3);
+	Q_UNUSED(relative)
+//	QByteArray command(5, 0);
+//	command[0] = 3;  // command length.
+//	command[1] = 0x00;
+//	command[2] = telegramType::directCommandNoResponse;
+//	command[3] = commandCode::RESETMOTORPOSITION;
+//	command[4] = relative;
+//	mRobotCommunicationInterface->send(this, command, 3);
 }

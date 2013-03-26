@@ -17,15 +17,10 @@ public:
 	BluetoothEncoderImplementation(RobotCommunicator *robotCommunicationInterface
 			,outputPort::OutputPortEnum const &port);
 	virtual void read();
-	virtual void nullificate();
 
 protected:
 	virtual void sensorSpecificProcessResponse(QByteArray const &reading);
 	RobotCommunicator *mRobotCommunicationInterface;
-
-protected slots:
-	void readingDone(QObject *addressee, QByteArray const &reading);
-
 };
 }
 }
