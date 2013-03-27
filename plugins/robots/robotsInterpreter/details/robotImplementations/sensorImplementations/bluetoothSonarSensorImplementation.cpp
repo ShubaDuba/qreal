@@ -33,4 +33,5 @@ void BluetoothSonarSensorImplementation::read()
 
 void BluetoothSonarSensorImplementation::sensorSpecificProcessResponse(QByteArray const &reading)
 {
+	Q_UNUSED(reading)
 }
