@@ -10,7 +10,7 @@ namespace Ui {
 	class watchListWindow;
 }
 
-int const watchWindowRefreshInterval = 100;
+int const watchWindowRefreshInterval = 10;
 
 class WatchListWindow : public QDockWidget
 {

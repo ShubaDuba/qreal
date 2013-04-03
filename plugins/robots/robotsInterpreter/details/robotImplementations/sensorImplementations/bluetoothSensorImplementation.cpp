@@ -58,7 +58,7 @@ void BluetoothSensorImplementation::configure()
 QString BluetoothSensorImplementation::portString() const
 {
 	// Even port = right, odd = left
-	return mPort == inputPort::port1 || mPort == inputPort::port3 ? "left" : "right";
+	return mPort == inputPort::port1 || mPort == inputPort::port3 ? "Left" : "Right";
 }
 
 void BluetoothSensorImplementation::sensorSpecificProcessResponse(QByteArray const &reading)

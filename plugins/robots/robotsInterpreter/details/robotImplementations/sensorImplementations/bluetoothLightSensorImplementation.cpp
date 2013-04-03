@@ -27,7 +27,7 @@ void BluetoothLightSensorImplementation::read()
 	}
 	mState = pending;
 
-	QString const command = QString("light_sensor %1\n").arg(portString());
+	QString const command = QString("SensorLight%1\n").arg(portString());
 	mRobotCommunicationInterface->send(this, command.toLatin1(), 2);
 }
 

@@ -27,7 +27,7 @@ void BluetoothSonarSensorImplementation::read()
 	}
 	mState = pending;
 
-	QString const command = QString("sonar_sensor %1\n").arg(portString());
+	QString const command = QString("SensorSonar%1\n").arg(portString());
 	mRobotCommunicationInterface->send(this, command.toLatin1(), 2);
 }
 

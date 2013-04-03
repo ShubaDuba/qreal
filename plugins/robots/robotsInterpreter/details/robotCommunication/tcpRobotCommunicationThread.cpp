@@ -17,7 +17,7 @@ void TcpRobotCommunicationThread::send(QObject *addressee, QByteArray const &buf
 {
 	mSocket->write(buffer);
 	mSocket->waitForBytesWritten();
-	if (responseSize > 0) {
+	if (responseSize == 2) {
 		mSocket->waitForReadyRead();
 		emit response(addressee, mSocket->read(responseSize));
 	} else {

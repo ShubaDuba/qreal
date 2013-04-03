@@ -42,8 +42,8 @@ void RealMotorImplementation::setOutputState(int speed, int mode
 	Q_UNUSED(tachoLimit)
 
 	QString const motorType = mPort == details::outputPort::port3
-			? "right" : "left";
-	QString const command = QString("motor %1 %2\n").arg(motorType, QString::number(speed));
+			? "Right" : "Left";
+	QString const command = QString("Motor%1 %2\n").arg(motorType, QString::number(speed));
 
 	mRobotCommunicationInterface->send(this, command.toLatin1(), 0);
 }
