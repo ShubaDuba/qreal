@@ -6,6 +6,8 @@ using namespace qReal::interpreters::robots;
 using namespace details;
 using namespace robotImplementations::sensorImplementations;
 
+int const maxLightValue = 1023;
+
 BluetoothLightSensorImplementation::BluetoothLightSensorImplementation(RobotCommunicator *robotCommunicationInterface
 		, inputPort::InputPortEnum const &port)
 	: BluetoothSensorImplementation(robotCommunicationInterface, sensorType::light, lowLevelSensorType::LIGHT_ACTIVE, sensorMode::RAWMODE, port)
