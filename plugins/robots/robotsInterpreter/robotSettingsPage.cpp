@@ -57,9 +57,9 @@ PreferencesRobotSettingsPage::PreferencesRobotSettingsPage(QWidget *parent)
 	}
 
 	mUi->manualComPortCheckbox->setChecked(SettingsManager::value("manualComPortCheckboxChecked").toBool());
-	mUi->enableSensorNoiseCheckBox->setChecked(SettingsManager::value("enableNoiseOfSensors").toBool());
-	mUi->enableMotorNoiseCheckBox->setChecked(SettingsManager::value("enableNoiseOfMotors").toBool());
-	mUi->approximationLevelSpinBox->setValue(SettingsManager::value("approximationLevel").toInt());
+//	mUi->enableSensorNoiseCheckBox->setChecked(SettingsManager::value("enableNoiseOfSensors").toBool());
+//	mUi->enableMotorNoiseCheckBox->setChecked(SettingsManager::value("enableNoiseOfMotors").toBool());
+//	mUi->approximationLevelSpinBox->setValue(SettingsManager::value("approximationLevel").toInt());
 
 	QVBoxLayout *sensorsLayout = new QVBoxLayout;
 	sensorsLayout->addWidget(mSensorsWidget);
@@ -96,8 +96,8 @@ void PreferencesRobotSettingsPage::changeEvent(QEvent *e)
 
 void PreferencesRobotSettingsPage::rereadNoiseSettings()
 {
-	mUi->enableSensorNoiseCheckBox->setChecked(SettingsManager::value("enableNoiseOfSensors").toBool());
-	mUi->enableMotorNoiseCheckBox->setChecked(SettingsManager::value("enableNoiseOfMotors").toBool());
+//	mUi->enableSensorNoiseCheckBox->setChecked(SettingsManager::value("enableNoiseOfSensors").toBool());
+//	mUi->enableMotorNoiseCheckBox->setChecked(SettingsManager::value("enableNoiseOfMotors").toBool());
 }
 
 
@@ -137,17 +137,20 @@ robotModelType::robotModelTypeEnum PreferencesRobotSettingsPage::selectedRobotMo
 
 int PreferencesRobotSettingsPage::approximationLevel() const
 {
-	return mUi->approximationLevelSpinBox->value();
+//	return mUi->approximationLevelSpinBox->value();
+	return 12;
 }
 
 bool PreferencesRobotSettingsPage::enableSensorNoise() const
 {
-	return mUi->enableSensorNoiseCheckBox->checkState() == Qt::Checked;
+//	return mUi->enableSensorNoiseCheckBox->checkState() == Qt::Checked;
+	return  false;
 }
 
 bool PreferencesRobotSettingsPage::enableMotorNoise() const
 {
-	return mUi->enableMotorNoiseCheckBox->checkState() == Qt::Checked;
+//	return mUi->enableMotorNoiseCheckBox->checkState() == Qt::Checked;
+	return false;
 }
 
 bool PreferencesRobotSettingsPage::textVisible() const
@@ -217,9 +220,9 @@ void PreferencesRobotSettingsPage::save()
 void PreferencesRobotSettingsPage::restoreSettings()
 {
 	mUi->manualComPortCheckbox->setChecked(SettingsManager::value("manualComPortCheckboxChecked").toBool());
-	mUi->enableSensorNoiseCheckBox->setChecked(SettingsManager::value("enableNoiseOfSensors").toBool());
-	mUi->enableMotorNoiseCheckBox->setChecked(SettingsManager::value("enableNoiseOfMotors").toBool());
-	mUi->approximationLevelSpinBox->setValue(SettingsManager::value("approximationLevel").toInt());
+//	mUi->enableSensorNoiseCheckBox->setChecked(SettingsManager::value("enableNoiseOfSensors").toBool());
+//	mUi->enableMotorNoiseCheckBox->setChecked(SettingsManager::value("enableNoiseOfMotors").toBool());
+//	mUi->approximationLevelSpinBox->setValue(SettingsManager::value("approximationLevel").toInt());
 
 	robotModelType::robotModelTypeEnum typeOfRobotModel = static_cast<robotModelType::robotModelTypeEnum>(SettingsManager::value("robotModel").toInt());
 	initRobotModelType(typeOfRobotModel);

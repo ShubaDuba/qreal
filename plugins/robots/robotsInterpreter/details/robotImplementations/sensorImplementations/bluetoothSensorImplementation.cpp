@@ -45,7 +45,7 @@ void BluetoothSensorImplementation::processResponse(QByteArray const &reading)
 	} else if (reading.length() == 2) {
 		uint const sensorValue = (static_cast<uchar>(reading[0]) << 8) + static_cast<uchar>(reading[1]);
 		Tracer::debug(tracer::sensors, "BluetoothSensorImplementation::sensorSpecificProcessResponse", QString::number(sensorValue));
-		emit response(sensorValue);
+		emit response(sensorValue / 10);
 	}
 }
 

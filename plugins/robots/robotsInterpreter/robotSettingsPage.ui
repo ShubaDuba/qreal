@@ -7,10 +7,46 @@
     <x>0</x>
     <y>0</y>
     <width>420</width>
-    <height>514</height>
+    <height>693</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="0">
+    <widget class="QGroupBox" name="robotModelGroupBox">
+     <property name="title">
+      <string>Type of Robot Model</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_4">
+      <property name="fieldGrowthPolicy">
+       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+      </property>
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="nullModelRadioButton">
+        <property name="text">
+         <string>Null model</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="d2ModelRadioButton">
+        <property name="text">
+         <string>2D robot model</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QRadioButton" name="realModelRadioButton">
+        <property name="text">
+         <string>Real robot</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item row="0" column="0" colspan="2">
     <widget class="QGroupBox" name="bluetoothSettingsGroupBox">
      <property name="title">
@@ -57,42 +93,6 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QGroupBox" name="robotModelGroupBox">
-     <property name="title">
-      <string>Type of Robot Model</string>
-     </property>
-     <layout class="QFormLayout" name="formLayout_4">
-      <property name="fieldGrowthPolicy">
-       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-      </property>
-      <item row="0" column="0">
-       <widget class="QRadioButton" name="nullModelRadioButton">
-        <property name="text">
-         <string>Null model</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QRadioButton" name="d2ModelRadioButton">
-        <property name="text">
-         <string>2D robot model</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QRadioButton" name="realModelRadioButton">
-        <property name="text">
-         <string>Real robot</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="3" column="1">
     <widget class="QGroupBox" name="communicationTypeGroupBox">
      <property name="title">
@@ -129,14 +129,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QGroupBox" name="sensorsSettingsGroupBox">
-     <property name="title">
-      <string>Sensors Settings</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0" colspan="2">
+   <item row="8" column="0" colspan="2">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -149,7 +142,14 @@
      </property>
     </spacer>
    </item>
-   <item row="5" column="0" colspan="2">
+   <item row="2" column="0" colspan="2">
+    <widget class="QGroupBox" name="sensorsSettingsGroupBox">
+     <property name="title">
+      <string>Sensors Settings</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="2">
     <widget class="QGroupBox" name="elementsGroupBox">
      <property name="title">
       <string>Elements</string>
@@ -165,53 +165,7 @@
      </layout>
     </widget>
    </item>
-   <item row="5" column="0" colspan="2">
-    <widget class="QGroupBox" name="bluetoothSettingsGroupBox">
-     <property name="title">
-      <string>Bluetooth Settings</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="1" column="0">
-       <widget class="QLabel" name="comPortLabel">
-        <property name="text">
-         <string>COM Port:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QComboBox" name="comPortComboBox"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="directInputComPortLabel">
-        <property name="text">
-         <string>COM Port:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="directInputComPortLineEdit"/>
-      </item>
-      <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="noComPortsFoundLabel">
-        <property name="text">
-         <string>No COM ports found. If you have a Bluetooth connection with active virtual COM port, please enter its name. Example: COM3</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" colspan="2">
-       <widget class="QCheckBox" name="manualComPortCheckbox">
-        <property name="text">
-         <string>Specify COM port manually</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="2">
+   <item row="1" column="0" colspan="2">
     <widget class="QGroupBox" name="tcpSettingsGroupBox">
      <property name="title">
       <string>TCP Settings</string>
