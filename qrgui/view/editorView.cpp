@@ -39,6 +39,16 @@ EditorView::~EditorView()
 	delete mScene;
 }
 
+EditorViewMViface *EditorView::mvIface() const
+{
+	return mMVIface;
+}
+
+EditorViewScene *EditorView::editorViewScene() const
+{
+	return mScene;
+}
+
 void EditorView::toggleAntialiasing(bool checked)
 {
 	setRenderHint(QPainter::Antialiasing, checked);
@@ -179,10 +189,10 @@ void EditorView::scrollContentsBy(int dx, int dy)
 
 void EditorView::keyPressEvent(QKeyEvent *event)
 {
+	QGraphicsView::keyPressEvent(event);
 	if (event->key() == Qt::Key_Space) {
 		setDragMode(QGraphicsView::ScrollHandDrag);
-	} else {
-		QGraphicsView::keyPressEvent(event);
+		event->accept();
 	}
 }
 

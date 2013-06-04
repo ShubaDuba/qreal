@@ -10,6 +10,7 @@
 
 #include "edgeElement.h"
 #include "nodeElement.h"
+#include "private/reshapeEdgeCommand.h"
 #include "../view/editorViewScene.h"
 #include "../editorPluginInterface/editorInterface.h"
 
@@ -37,6 +38,7 @@ EdgeElement::EdgeElement(ElementImpl *impl)
 		, mModelUpdateIsCalled(false)
 		, mIsLoop(false)
 		, mIsVerticalChanging(false)
+		, mReshapeCommand(NULL)
 {
 	mPenStyle = mElementImpl->getPenStyle();
 	mPenWidth = mElementImpl->getPenWidth();
@@ -109,6 +111,12 @@ QRectF EdgeElement::boundingRect() const
 QPolygonF EdgeElement::line() const
 {
 	return mLine;
+}
+
+void EdgeElement::setLine(QPolygonF const &line)
+{
+	mLine = line;
+	saveConfiguration(QPointF());
 }
 
 static double lineAngle(const QLineF &line)
@@ -500,6 +508,10 @@ void EdgeElement::mousePressEvent(QGraphicsSceneMouseEvent *event)
 			return;
 		}
 	}
+
+	mReshapeCommand = new commands::ReshapeEdgeCommand(this);
+	mReshapeCommand->startTracking();
+
 	if (!SettingsManager::value("SquareLine").toBool() && (event->modifiers() & Qt::AltModifier)
 		&& (getPoint(event->pos()) != noPort) && (event->button() == Qt::LeftButton) && delPointActionIsPossible(event->pos()))
 	{
@@ -621,10 +633,18 @@ void EdgeElement::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 		}
 		mLine = mSavedLineForSquarize;
 		prepareGeometryChange();
+
 		mLine[mDragPoint] = event->pos();
+
 		if (SettingsManager::value("SquareLine").toBool()) {
 			squarizeAndAdjustHandler(QPointF());
+		} else {
+			if (SettingsManager::value("ActivateGrid").toBool()) {
+				int const indexGrid = SettingsManager::value("IndexGrid").toInt();
+				mLine[mDragPoint] = alignedPoint(event->pos(), indexGrid);
+			}
 		}
+
 		updateLongestPart();
 	}
 }
@@ -666,6 +686,11 @@ void EdgeElement::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 	setGraphicApiPos();
 	saveConfiguration(QPointF());
+
+	mReshapeCommand->stopTracking();
+	mController->execute(mReshapeCommand);
+	// Undo stack took ownership
+	mReshapeCommand = NULL;
 }
 
 qreal EdgeElement::lengthOfSegment(QPointF const &pos1, QPointF const &pos2) const
@@ -1740,8 +1765,8 @@ EdgeData& EdgeElement::data()
 {
 	mData.id = id();
 	mData.logicalId = logicalId();
-	mData.srcId = src()->id();
-	mData.dstId = dst()->id();
+	mData.srcId = src() ? src()->id() : Id::rootId();
+	mData.dstId = dst() ? dst()->id() : Id::rootId();
 
 	mData.portFrom = mPortFrom;
 	mData.portTo = mPortTo;
@@ -1991,4 +2016,44 @@ void EdgeElement::tuneForLinker()
 bool EdgeElement::isLoop()
 {
 	return mIsLoop;
+}
+
+void EdgeElement::alignToGrid()
+{
+	if (mLine.size() >= 3 && !SettingsManager::value("SquareLine").toBool()) {
+		int const indexGrid = SettingsManager::value("IndexGrid").toInt();
+
+		prepareGeometryChange();
+
+		for (int i = 1; i < mLine.size() - 1; ++i) {
+			mLine[i] = alignedPoint(mLine[i], indexGrid);
+		}
+
+		update();
+		updateLongestPart();
+	}
+}
+
+qreal EdgeElement::alignedCoordinate(qreal const coord, int const coef, int const indexGrid) const
+{
+	int const coefSign = coef != 0 ? coef / qAbs(coef) : 0;
+
+	if (qAbs(qAbs(coord) - qAbs(coef) * indexGrid) <= indexGrid) {
+		return coef * indexGrid;
+	} else if (qAbs(qAbs(coord) - (qAbs(coef) + 1) * indexGrid) < indexGrid) {
+		return (coef + coefSign) * indexGrid;
+	}
+	return coord;
+}
+
+QPointF EdgeElement::alignedPoint(QPointF const &point, int const indexGrid) const
+{
+	QPointF p = mapToScene(point);
+
+	int const coefX = static_cast<int>(p.x()) / indexGrid;
+	int const coefY = static_cast<int>(p.y()) / indexGrid;
+
+	p = QPointF(alignedCoordinate(p.x(), coefX, indexGrid), alignedCoordinate(p.y(), coefY, indexGrid));
+
+	return mapFromScene(p);
 }
