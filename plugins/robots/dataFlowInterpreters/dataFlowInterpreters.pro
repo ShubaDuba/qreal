@@ -17,3 +17,4 @@ TEMPLATE = subdirs
 SUBDIRS = \
 	DFInterpreter \
 	DFTrikKitV62InterpreterPlugin \
+    DFNxtKitInterpreterPlugin

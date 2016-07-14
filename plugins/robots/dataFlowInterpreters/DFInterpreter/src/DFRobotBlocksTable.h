@@ -22,7 +22,7 @@
 namespace dataFlow {
 namespace interpretation {
 
-/// @todo: make fatcory manager and etc.
+/// @todo: make factory manager and etc.
 class DFRobotBlocksTable : public DFRobotBlocksTableBase
 {
 public:

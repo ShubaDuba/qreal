@@ -25,7 +25,7 @@ DrawPixelBlock::DrawPixelBlock(kitBase::robotModel::RobotModelInterface &robotMo
 
 void DrawPixelBlock::doJob(kitBase::robotModel::robotParts::Display &display)
 {
-	auto nxtDisplay = static_cast<robotModel::parts::NxtDisplay *>(&display);
+    auto nxtDisplay = static_cast<robotModel::parts::NxtDisplay *>(&display);
 	const int x = eval<int>("XCoordinatePix");
 	const int y = eval<int>("YCoordinatePix");
 	const bool redraw = boolProperty("Redraw");

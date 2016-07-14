@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metamodel xmlns="http://schema.real.com/schema/" version="1.0.0">
 	<namespace>UML 2.0</namespace>
-	<diagram displayedName="robots editor diagram" nodeName="RobotsBehaviourDiagram" name="RobotsDataFlowDiagram">
+        <diagram displayedName="robots editor diagram" nodeName="RobotsBehaviourDiagram" name="RobotsDataFlowDiagram">
 	<nonGraphicTypes>
+                <enum name="NxtSensorPort">
+                <value name="1" displayedName="1"/>
+                <value name="2" displayedName="2"/>
+                <value name="3" displayedName="3"/>
+                <value name="4" displayedName="4"/>
+                </enum>
 		<enum editable="false" name="TrikV6DigitalSensorPort">
 		<value name="D1"/>
 		<value name="D2"/>
@@ -69,6 +75,12 @@
 		<value displayedName="Object" name="object"/>
 		<value displayedName="Color" name="color"/>
 		</enum>
+                <enum name="NxtButtons">
+                <value name="Left"/>
+                <value name="Right"/>
+                <value name="Enter"/>
+                <value name="Escape"/>
+                </enum>
 		<enum editable="false" name="TrikButtons">
 		<value name="Up"/>
 		<value name="Down"/>
@@ -1114,6 +1126,64 @@
 			<explodesTo/>
 		</logic>
 		</node>
+                <node displayedName="nPlayTone" name="NxtPlayTone">
+                <graphics>
+                    <picture sizex="103" sizey="116">
+                        <image y2="114" x2="101" name="images/playTone.svg" x1="2" y1="0"/>
+                    </picture>
+                    <labels>
+                        <label textBinded="file" y="85" x="9"/>
+                    </labels>
+                    <ports>
+                        <pointPort y="97" type="NonTyped" x="2"/>
+                        <pointPort y="15" type="NonTyped" x="14"/>
+                        <pointPort y="18" type="NonTyped" x="88"/>
+                    </ports>
+                    <nonResizeable/>
+                </graphics>
+                <logic>
+                    <container/>
+                    <properties>
+                        <property displayedName="file name" name="file" type="string"/>
+                    </properties>
+                    <generalizations>
+                        <parent overrides="" parentName="AbstractNode"/>
+                    </generalizations>
+                    <explodesTo/>
+                </logic>
+                </node>
+                <node displayedName="nMotors" name="NxtMotors">
+                <graphics>
+                    <picture sizex="101" sizey="150">
+                        <image y2="114" x2="99" name="images/motors_.svg" x1="0" y1="0"/>
+                    </picture>
+                    <labels>
+                        <label textBinded="name" y="124" x="28"/>
+                        <label y="15" text="A" x="-30"/>
+                        <label y="40" text="B" x="-30"/>
+                        <label y="65" text="C" x="-30"/>
+                    </labels>
+                    <ports>
+                        <pointPort y="25" type="NonTyped" x="2"/>
+                        <pointPort y="50" type="NonTyped" x="2"/>
+                        <pointPort y="16" type="NonTyped" x="90"/>
+                        <pointPort y="75" type="NonTyped" x="2"/>
+                    </ports>
+                    <nonResizeable/>
+                </graphics>
+                <logic>
+                    <container/>
+                    <properties>
+                        <property displayedName="synchronized" name="synch" type="bool">
+                            <default>false</default>
+                        </property>
+                    </properties>
+                    <generalizations>
+                        <parent overrides="" parentName="AbstractNode"/>
+                    </generalizations>
+                    <explodesTo/>
+                </logic>
+                </node>
 		<node displayedName="Motors" name="Motors">
 		<graphics>
 			<picture sizex="101" sizey="150">
@@ -1214,6 +1284,38 @@
 			<explodesTo/>
 		</logic>
 		</node>
+                <node displayedName="nEncoders" name="NxtEncoders">
+                <graphics>
+                    <picture sizex="100" sizey="100">
+                        <image y2="100" x2="100" name="images/encoders.svg" x1="0" y1="0"/>
+                    </picture>
+                    <labels>
+                        <label textBinded="name" y="121" x="27"/>
+                        <label y="-10" text="E1" x="-30"/>
+                        <label y="25" text="E2" x="-30"/>
+                        <label y="55" text="E3" x="-30"/>
+                        <label y="85" text="E4" x="-30"/>
+                    </labels>
+                    <ports>
+                        <pointPort y="5" type="NonTyped" x="2"/>
+                        <pointPort y="35" type="NonTyped" x="2"/>
+                        <pointPort y="65" type="NonTyped" x="2"/>
+                        <pointPort y="95" type="NonTyped" x="2"/>
+                        <pointPort y="5" type="NonTyped" x="98"/>
+                        <pointPort y="35" type="NonTyped" x="98"/>
+                        <pointPort y="65" type="NonTyped" x="98"/>
+                        <pointPort y="95" type="NonTyped" x="98"/>
+                    </ports>
+                    <nonResizeable/>
+                </graphics>
+                <logic>
+                    <container/>
+                    <generalizations>
+                        <parent overrides="" parentName="AbstractNode"/>
+                    </generalizations>
+                    <explodesTo/>
+                </logic>
+                </node>
 		<node displayedName="say smth." name="SayNode">
 		<graphics>
 			<picture sizex="144" sizey="145">
@@ -1793,9 +1895,114 @@
 			<explodesTo/>
 		</logic>
 		</node>
+                <node displayedName="Draw Pixel" name="DFNxtDrawPixel">
+                <graphics>
+                    <picture sizex="176" sizey="151">
+                        <image y2="114" name="images/drawPixel.svg" x2="174" x1="75" y1="0"/>
+                    </picture>
+                    <labels>
+                        <label x="99" y="125" textBinded="XCoordinatePix" prefix="X:"/>
+                        <label x="99" y="155" textBinded="YCoordinatePix" prefix="Y:"/>
+                    </labels>
+                    <ports>
+                        <pointPort y="17" type="NonTyped" x="90"/>
+                        <pointPort y="17" type="NonTyped" x="164"/>
+                        <pointPort y="60" type="NonTyped" x="77"/>
+                    </ports>
+                    <nonResizeable/>
+                </graphics>
+                <logic>
+                    <container/>
+                    <properties/>
+                    <generalizations>
+                        <parent overrides="" parentName="AbstactPainter"/>
+                    </generalizations>
+                    <explodesTo/>
+                </logic>
+                </node>
+                <node displayedName="Draw Line" name="DFNxtDrawLine">
+                <graphics>
+                    <picture sizex="176" sizey="151">
+                        <image y2="114" name="images/drawLine.svg" x2="174" x1="75" y1="0"/>
+                    </picture>
+                    <labels>
+                        <label x="99" y="125" textBinded="X1CoordinateLine" prefix="X1:"/>
+                        <label x="99" y="155" textBinded="Y1CoordinateLine" prefix="Y1:"/>
+                        <label x="99" y="185" textBinded="X2CoordinateLine" prefix="X2:"/>
+                        <label x="99" y="215" textBinded="Y2CoordinateLine" prefix="Y2:"/>
+                    </labels>
+                    <ports>
+                        <pointPort y="17" type="NonTyped" x="90"/>
+                        <pointPort y="17" type="NonTyped" x="164"/>
+                        <pointPort y="60" type="NonTyped" x="77"/>
+                    </ports>
+                    <nonResizeable/>
+                </graphics>
+                <logic>
+                    <container/>
+                    <properties/>
+                    <generalizations>
+                        <parent overrides="" parentName="AbstactPainter"/>
+                    </generalizations>
+                    <explodesTo/>
+                </logic>
+                </node>
+                <node displayedName="Draw Rectangle" name="DFNxtDrawRect">
+                <graphics>
+                    <picture sizex="176" sizey="151">
+                        <image y2="114" name="images/drawRect.svg" x2="174" x1="75" y1="0"/>
+                    </picture>
+                    <labels>
+                        <label x="99" y="125" textBinded="XCoordinateRect" prefix="X:"/>
+                        <label x="99" y="155" textBinded="YCoordinateRect" prefix="Y:"/>
+                        <label x="99" y="185" textBinded="WidthRect" prefix="Width:"/>
+                        <label x="99" y="215" textBinded="HeightRect" prefix="Height:"/>
+                    </labels>
+                    <ports>
+                        <pointPort y="17" type="NonTyped" x="90"/>
+                        <pointPort y="17" type="NonTyped" x="164"/>
+                        <pointPort y="60" type="NonTyped" x="77"/>
+                    </ports>
+                    <nonResizeable/>
+                </graphics>
+                <logic>
+                    <container/>
+                    <properties/>
+                    <generalizations>
+                        <parent overrides="" parentName="AbstactPainter"/>
+                    </generalizations>
+                    <explodesTo/>
+                </logic>
+                </node>
+                <node displayedName="Draw Circle" name="DFNxtDrawCircle">
+                <graphics>
+                    <picture sizex="176" sizey="151">
+                        <image y2="114" name="images/drawCircle.svg" x2="174" x1="75" y1="0"/>
+                    </picture>
+                    <labels>
+                        <label x="99" y="125" textBinded="XCoordinateCircle" prefix="X1:"/>
+                        <label x="99" y="155" textBinded="YCoordinateCircle" prefix="Y1:"/>
+                        <label x="99" y="185" textBinded="RadiusCircle" prefix="Radius:"/>
+                    </labels>
+                    <ports>
+                        <pointPort y="17" type="NonTyped" x="90"/>
+                        <pointPort y="17" type="NonTyped" x="164"/>
+                        <pointPort y="60" type="NonTyped" x="77"/>
+                    </ports>
+                    <nonResizeable/>
+                </graphics>
+                <logic>
+                    <container/>
+                    <properties/>
+                    <generalizations>
+                        <parent overrides="" parentName="AbstactPainter"/>
+                    </generalizations>
+                    <explodesTo/>
+                </logic>
+                </node>
 		<node displayedName="pen up or down" name="Pen">
 		<graphics>
-			<picture sizex="176" sizey="151">
+                        <picture sizex="176" sizey="151">
 			<image y2="114" name="images/pen up down.svg" x2="174" x1="75" y1="0"/>
 			</picture>
 			<labels>
@@ -2017,15 +2224,19 @@
 			<group name="Actions">
 				<element name="ConcreteInputPort"/>
 				<element name="ConcreteOutputPort"/>
+                                <element name="NxtSensorVar"/>
 				<element name="SensorVar"/>
 				<element name="MessageToRobot"/>
 				<element name="SystemCallNode"/>
 				<element name="SayNode"/>
 				<element name="PlayTone"/>
+                                <element name="NxtPlayTone"/>
 				<element name="LedNode"/>
 				<element name="Encoders"/>
+                                <element name="NxtEncoders"/>
 				<element name="Servo"/>
 				<element name="Motors"/>
+                                <element name="NxtMotors"/>
 				<element name="InitCamera"/>
 				<element name="DetectByVideo"/>
 				<element name="StreamingNode"/>
@@ -2036,6 +2247,10 @@
 				<element name="Gamepad"/>
 			</group>
 			<group name="Drawing">
+                                <element name="DFNxtDrawRect"/>
+                                <element name="DFNxtDrawPixel"/>
+                                <element name="DFNxtDrawLine"/>
+                                <element name="DFNxtDrawCircle"/>
 				<element name="Pen"/>
 				<element name="PaintSettings"/>
 				<element name="TextOnScreen"/>

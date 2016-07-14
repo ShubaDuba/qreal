@@ -2266,7 +2266,7 @@
 			</node>
 
 			<!-- NXT display drawing blocks -->
-			<node displayedName="Draw Pixel" name="NxtDrawPixel" description="Draws one pixel in the specified coordinates on the robot screen.">
+                        <node displayedName="nDraw Pixel" name="NxtDrawPixel" description="Draws one pixel in the specified coordinates on the robot screen.">
 				<graphics>
 					<picture sizex="50" sizey="50">
 						<image y1="0" name="images/drawPixelBlock.png" x1="0" y2="50" x2="50"/>
